@@ -2,7 +2,7 @@ from random import choice
 
 class HangmanGame:
     def __init__(self):
-        self.word: str = choice(['apple', 'secret', 'banana'])
+        self.word: str = choice(['apple','python','spiderman','kratos','secret','banana','watermelon'])
         self.guessed: str = ''
         self.tries: int = 3
 
