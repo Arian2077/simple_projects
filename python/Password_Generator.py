@@ -1,5 +1,6 @@
 import string
 import secrets
+import customtkinter as ctk
 
 class PasswordGenerator:
     def __init__(self):
@@ -31,12 +32,53 @@ class PasswordGenerator:
             new_password += combination[secrets.randbelow(combination_length)]
         return new_password
 
+class PasswordGeneratorApp:
+    def __init__(self):
+        self.generator = PasswordGenerator()
+        self.root = ctk.CTk()
+        self.root.title("Password Generator")
+        self.root.geometry("500x300")
+
+        # Title Label
+        self.title_label = ctk.CTkLabel(self.root, text="Password Generator", font=("Arial", 20))
+        self.title_label.pack(pady=10)
+
+        # Length Slider
+        self.length_label = ctk.CTkLabel(self.root, text="Password Length:")
+        self.length_label.pack()
+        self.length_slider = ctk.CTkSlider(self.root, from_=8, to=32, number_of_steps=24)
+        self.length_slider.set(15)
+        self.length_slider.pack(pady=5)
+
+        # Uppercase Checkbox
+        self.uppercase_var = ctk.BooleanVar()
+        self.uppercase_checkbox = ctk.CTkCheckBox(self.root, text="Include Uppercase Letters", variable=self.uppercase_var)
+        self.uppercase_checkbox.pack(pady=5)
+
+        # Symbols Checkbox
+        self.symbol_var = ctk.BooleanVar()
+        self.symbol_checkbox = ctk.CTkCheckBox(self.root, text="Include Symbols", variable=self.symbol_var)
+        self.symbol_checkbox.pack(pady=5)
+
+        # Generate Button
+        self.generate_button = ctk.CTkButton(self.root, text="Generate Password", command=self.generate_password)
+        self.generate_button.pack(pady=10)
+
+        # Output Entry
+        self.output_entry = ctk.CTkEntry(self.root, width=400, font=("Arial", 14))
+        self.output_entry.pack(pady=10)
+
+    def generate_password(self):
+        length = int(self.length_slider.get())
+        include_upper = self.uppercase_var.get()
+        include_symbols = self.symbol_var.get()
+        password = self.generator.generate_password(length, include_upper, include_symbols)
+        self.output_entry.delete(0, ctk.END)
+        self.output_entry.insert(0, password)
+
     def run(self):
-        for i in range(5):
-            new_password = self.generate_password(length=15, symbol_check=True, upper_check=True)
-            check = f'U:{self.upper_check(new_password)}, S:{self.symbol_check(new_password)}'
-            print(f'P{i+1} -----> {new_password} | ({check})')
+        self.root.mainloop()
 
 if __name__ == "__main__":
-    generator = PasswordGenerator()
-    generator.run()
+    app = PasswordGeneratorApp()
+    app.run()
