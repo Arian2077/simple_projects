@@ -1,13 +1,13 @@
 import qrcode
 
 class QRCODE:
-    def __init__(self):
-        self.qr = qrcode.QRCode(box_size= size, border= padding)
+    def __init__(self, size: int, padding: int):
+        self.qr = qrcode.QRCode(box_size=size, border=padding)
     
-    def creating_qr(self,file_name: str,fg: str,bg: str):
+    def creating_qr(self, file_name: str, fg: str, bg: str):
 
         print("!!!WRITE ANYTHING YOU WANT AND GET THE QR CODE!!!")
-        user_input: str = input("Enter anything you want")
+        user_input: str = input("Enter anything you want: ")
         
         try:
             self.qr.add_data(user_input)
@@ -20,11 +20,10 @@ class QRCODE:
             
             
 def main():
-    myqr = QRCODE(size = 30, padding = 2)
+    myqr = QRCODE(size=30, padding=2)
     myqr.creating_qr("sample.png",
                      fg='black',
                      bg='white')
     
 if __name__ == "__main__":
     main()
-            
