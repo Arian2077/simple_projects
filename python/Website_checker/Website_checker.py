@@ -18,4 +18,19 @@ def get_websites(csv_path: str) -> list[str]:
 def get_user_agent() -> str:
     user_agent = UserAgent()
     return user_agent.chrome
-print(get_user_agent())
+
+
+def get_status_description(url: int) -> str:
+    for value in HTTPStatus:
+        if value == url:
+            description: str = f'({value} {value.name}) {value.description}'
+            return description
+        
+    return '(???) Unknown status code...'
+
+def check_website_status(websites:str , user_agent):
+    try:
+        code:int = requests.get(websites, headers={'User-Agent': user_agent}).status_code
+        print(websites,get_status_description(code)) 
+    except Exception:
+        print(websites, 'Error: Unable to connect to the website.')
